@@ -12,12 +12,20 @@ find_package(px4_msgs REQUIRED)
 add_executable(sensor_combined_listener
   src/sensor_combined_listener.cpp)
 
+add_executable(sensor_combined_latency
+  src/sensor_combined_latency.cpp)
+
 ament_target_dependencies(sensor_combined_listener
+  px4_msgs
+  rclcpp)
+
+ament_target_dependencies(sensor_combined_latency
   px4_msgs
   rclcpp)
 
 install(TARGETS
   sensor_combined_listener
+  sensor_combined_latency
   DESTINATION bin)
 
 ament_package()

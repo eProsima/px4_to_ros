@@ -18,9 +18,8 @@
 
 struct PX4Receiver : public rclcpp::Node{
     PX4Receiver() : Node("px4_receiver"){
-        //publisher_ = this->create_publisher<px4_msgs::msg::SensorCombined>("latency_measurement_topic");
         subscription_ = this->create_subscription<px4_msgs::msg::SensorCombined>("sensor_combined_topic",
-            [&](px4_msgs::msg::SensorCombined::UniquePtr msg) {
+            [](px4_msgs::msg::SensorCombined::UniquePtr msg) {
             std::cout << "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n";
             std::cout << "RECEIVED DATA ON SENSOR COMBINED" << std::endl;
             std::cout << "================================" << std::endl;
@@ -41,11 +40,9 @@ struct PX4Receiver : public rclcpp::Node{
             std::cout << "baro_alt_meter: " << msg->baro_alt_meter << std::endl;
             std::cout << "baro_temp_celcius: " << msg->baro_temp_celcius << std::endl;
             fflush(stdout);
-            //publisher_->publish(msg);
         });
     }
 private:
-    //rclcpp::Publisher<px4_msgs::msg::SensorCombined>::SharedPtr publisher_;
     rclcpp::Subscription<px4_msgs::msg::SensorCombined>::SharedPtr subscription_;
 };
 
