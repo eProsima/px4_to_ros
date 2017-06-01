@@ -33,7 +33,7 @@
 #include <unistd.h>
 
 #define BUFFER_SIZE 1024
-#define USLEEP_MS 2000
+#define USLEEP_MS 0
 
 using namespace eprosima;
 using namespace eprosima::fastrtps;
@@ -65,18 +65,18 @@ int main(int argc, char** argv)
     sensor_combined_Publisher sensor_combined_pub;
     sensor_combined_pub.init();
 
-    int received = 0, sent = 0, wait = 0, total_read = 0;
+    //int received = 0, sent = 0, wait = 0, total_read = 0;
     int read = 0;
     char topic_ID = 255;
 
-    struct timespec begin;
-    bool start = true, receiving = false;
+    //struct timespec begin;
+    //bool start = true, receiving = false;
     do
     {
-        if (!receiving)
+        /*if (!receiving)
         {
             clock_gettime(0, &begin);
-        }
+        }*/
         // Publish messages received from UART
         while (0 < (read = m_uartNode.readFromUART(&topic_ID, data_buffer, rx_buffer, rx_buff_pos, BUFFER_SIZE)))
         {
@@ -90,13 +90,13 @@ int main(int argc, char** argv)
                     st.deserialize(cdr_des);
                     sensor_combined_pub.publish(&st);
                     //printf("                >>[%d] %lu\n", <built-in function id>, st.timestamp());
-                    ++received;
-                    total_read += read;
+                    //++received;
+                    //total_read += read;
                 }
                 break;
             }
-            receiving = true;
-            wait = 0;
+            //receiving = true;
+            //wait = 0;
         }
 
         // Send subscribed topics over UART
@@ -109,10 +109,10 @@ int main(int argc, char** argv)
             size_t len = scdr.getSerializedDataLength();
             //printf("[%d]>> %lu\n", <built-in function id>, msg.timestamp());
             m_uartNode.writeToUART((char) 58, scdr.getBufferPointer(), len);
-            ++sent;
+            //++sent;
         }
 
-        if (receiving && ++wait > 10)
+       /* if (receiving && ++wait > 10)
         {
             struct timespec end;
             clock_gettime(0, &end);
@@ -121,7 +121,7 @@ int main(int argc, char** argv)
                     received, sent, total_read, elapsed_secs, (double)total_read/(1000*elapsed_secs));
             received = sent = total_read = wait = 0;
             receiving = false;
-        }
+        }*/
 
         usleep(usleep_ms);
     }while(true);
