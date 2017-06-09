@@ -97,3 +97,22 @@ Now, you can run the bridge application with:
     $ source /path/to/ros1/workspace/install_folder/setup.bash
     $ source /path/to/ros2/workspace/install_folder/setup.bash
     $ static_bridge
+
+Roscore: working in several machines
+------------------------------------
+
+In due we only need one instance of *roscore* runnig we need to make some adjustenments to work in separate machines:
+
+Machine that runs *roscore* need to define:
+
+.. code-block:: bash
+
+    $ export ROS_MASTER_URI=http://localhost:11311
+    $ export ROS_HOSTNAME=<LOCAL_IP>
+
+Machine that **NOT** run *roscore* need to define:
+
+.. code-block:: bash
+
+    $ export ROS_MASTER_URI=http://<ROSCORE_MACHINE_IP>:11311
+    $ export ROS_HOSTNAME=<LOCAL_IP>
